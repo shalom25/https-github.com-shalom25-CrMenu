@@ -1,0 +1,124 @@
+# Menú de Administración
+# Este archivo define el menú administrativo del servidor
+
+title: "&c&lPanel de Administración"
+size: 36
+
+# Permiso requerido para abrir este menú
+permission_open: "server.admin"
+
+# Configuración del borde personalizada para admin
+border:
+  enabled: true
+  material: RED_STAINED_GLASS_PANE
+  name: "&c"
+
+# Lista de ítems del menú
+items:
+  - slot: 10
+    material: COMMAND_BLOCK
+    name: "&cRecargar Plugin"
+    lore:
+      - "&7Recarga la configuración del plugin"
+      - "&7Útil después de hacer cambios"
+    permission: "crmenu.reload"
+    action:
+      type: command_console
+      value: "crmenu reload"
+
+  - slot: 11
+    material: REDSTONE_TORCH
+    name: "&eDiagnóstico"
+    lore:
+      - "&7Ejecuta diagnóstico del plugin"
+      - "&7Verifica configuración y errores"
+    permission: "crmenu.diag"
+    action:
+      type: command
+      value: "crmenu diag"
+
+  - slot: 12
+    material: PAPER
+    name: "&bLista de Jugadores"
+    lore:
+      - "&7Ver todos los jugadores conectados"
+      - "&7Información detallada"
+    permission: "server.admin.players"
+    action:
+      type: command
+      value: "list"
+
+  - slot: 13
+    material: CLOCK
+    name: "&6TPS del Servidor"
+    lore:
+      - "&7Verificar rendimiento del servidor"
+      - "&7Ticks por segundo"
+    permission: "server.admin.performance"
+    action:
+      type: command
+      value: "tps"
+
+  - slot: 19
+    material: BARRIER
+    name: "&cKick Jugador"
+    lore:
+      - "&7Expulsar un jugador del servidor"
+      - "&cUsar con precaución"
+    permission: "server.admin.kick"
+    action:
+      type: message
+      value: "&cUsa: /kick <jugador> <razón>"
+
+  - slot: 20
+    material: LAVA_BUCKET
+    name: "&4Ban Jugador"
+    lore:
+      - "&7Banear un jugador del servidor"
+      - "&4¡Usar con mucha precaución!"
+    permission: "server.admin.ban"
+    action:
+      type: message
+      value: "&4Usa: /ban <jugador> <razón>"
+
+  - slot: 21
+    material: ENDER_PEARL
+    name: "&5Teletransporte"
+    lore:
+      - "&7Teletransportarse a un jugador"
+      - "&7Útil para moderación"
+    permission: "server.admin.teleport"
+    action:
+      type: message
+      value: "&5Usa: /tp <jugador> o /tp <x> <y> <z>"
+
+  - slot: 22
+    material: CHEST
+    name: "&eInventario de Jugador"
+    lore:
+      - "&7Ver inventario de otro jugador"
+      - "&7Útil para investigaciones"
+    permission: "server.admin.inventory"
+    action:
+      type: message
+      value: "&eUsa: /invsee <jugador>"
+
+  - slot: 28
+    material: BOOK
+    name: "&aLogs del Servidor"
+    lore:
+      - "&7Ver logs recientes del servidor"
+      - "&7Útil para debugging"
+    permission: "server.admin.logs"
+    action:
+      type: command_console
+      value: "say Logs disponibles en consola del servidor"
+
+  - slot: 31
+    material: ARROW
+    name: "&7Volver al Menú Principal"
+    lore:
+      - "&7Regresa al menú principal"
+    action:
+      type: open_menu
+      value: "main"

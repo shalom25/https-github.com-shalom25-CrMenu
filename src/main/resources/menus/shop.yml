@@ -1,0 +1,126 @@
+# Menú de Tienda
+# Este archivo define el menú de la tienda del servidor
+
+title: "&6&lTienda del Servidor"
+size: 45
+
+# Permiso opcional para abrir este menú
+permission_open: "shop.access"
+
+# Configuración del borde personalizada para la tienda
+border:
+  enabled: true
+  material: YELLOW_STAINED_GLASS_PANE
+  name: "&6"
+
+# Lista de ítems del menú
+items:
+  - slot: 10
+    material: DIAMOND
+    name: "&bDiamantes"
+    lore:
+      - "&7Precio: &a$100 cada uno"
+      - "&7Stock: &eIlimitado"
+      - "&7Haz clic para comprar"
+    action:
+      type: command
+      value: "shop buy diamond 1"
+
+  - slot: 11
+    material: EMERALD
+    name: "&aEsmeraldas"
+    lore:
+      - "&7Precio: &a$50 cada una"
+      - "&7Stock: &eIlimitado"
+      - "&7Haz clic para comprar"
+    action:
+      type: command
+      value: "shop buy emerald 1"
+
+  - slot: 12
+    material: GOLD_INGOT
+    name: "&eOro"
+    lore:
+      - "&7Precio: &a$25 cada uno"
+      - "&7Stock: &eIlimitado"
+      - "&7Haz clic para comprar"
+    action:
+      type: command
+      value: "shop buy gold_ingot 1"
+
+  - slot: 13
+    material: IRON_INGOT
+    name: "&7Hierro"
+    lore:
+      - "&7Precio: &a$10 cada uno"
+      - "&7Stock: &eIlimitado"
+      - "&7Haz clic para comprar"
+    action:
+      type: command
+      value: "shop buy iron_ingot 1"
+
+  - slot: 19
+    material: DIAMOND_SWORD
+    name: "&bEspada de Diamante"
+    lore:
+      - "&7Precio: &a$500"
+      - "&7Encantamientos: &eSharpness V"
+      - "&7Haz clic para comprar"
+    permission: "shop.weapons"
+    action:
+      type: command_console
+      value: "give %player_name% diamond_sword{Enchantments:[{id:sharpness,lvl:5}]} 1"
+
+  - slot: 20
+    material: DIAMOND_PICKAXE
+    name: "&bPico de Diamante"
+    lore:
+      - "&7Precio: &a$300"
+      - "&7Encantamientos: &eEfficiency IV"
+      - "&7Haz clic para comprar"
+    permission: "shop.tools"
+    action:
+      type: command_console
+      value: "give %player_name% diamond_pickaxe{Enchantments:[{id:efficiency,lvl:4}]} 1"
+
+  - slot: 21
+    material: ENCHANTED_GOLDEN_APPLE
+    name: "&6Manzana Dorada Encantada"
+    lore:
+      - "&7Precio: &a$1000"
+      - "&7¡Muy rara y poderosa!"
+      - "&7Haz clic para comprar"
+    permission: "shop.premium"
+    action:
+      type: command_console
+      value: "give %player_name% enchanted_golden_apple 1"
+
+  - slot: 22
+    material: EXPERIENCE_BOTTLE
+    name: "&aBotellas de Experiencia"
+    lore:
+      - "&7Precio: &a$20 cada una"
+      - "&7Pack de 10 botellas"
+      - "&7Haz clic para comprar"
+    action:
+      type: command_console
+      value: "give %player_name% experience_bottle 10"
+
+  - slot: 31
+    material: EMERALD_BLOCK
+    name: "&aTu Balance"
+    lore:
+      - "&7Balance actual: &b%vault_eco_balance_formatted%"
+      - "&7Haz clic para ver historial"
+    action:
+      type: command
+      value: "balance"
+
+  - slot: 40
+    material: BARRIER
+    name: "&cVolver al Menú Principal"
+    lore:
+      - "&7Regresa al menú principal"
+    action:
+      type: open_menu
+      value: "main"

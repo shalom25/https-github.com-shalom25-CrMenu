@@ -1,0 +1,82 @@
+# Submenú de Información
+# Este archivo define el menú de información del servidor
+
+title: "&9Información de %player_name%"
+size: 54
+
+# Permiso opcional para abrir este submenú
+permission_open: ""
+
+# Configuración del borde (hereda la global si no se especifica)
+# border:
+#   enabled: true
+#   material: GRAY_STAINED_GLASS_PANE
+#   name: "&8"
+
+# Lista de ítems del menú
+items:
+  - slot: 11
+    material: PLAYER_HEAD
+    name: "&eTu Perfil"
+    lore:
+      - "&7Nombre: &b%player_name%"
+      - "&7Ping: &b%player_ping%ms"
+      - "&7Balance: &b%vault_eco_balance_formatted%"
+      - "&7Rango: &b%luckperms_primary_group_name%"
+    # Si no se especifica owner, se usará la cabeza del jugador actual
+    action:
+      type: message
+      value: "&aHola %player_name%, llevas jugando desde hace %statistic_time_played%"
+
+  - slot: 13
+    material: PLAYER_HEAD
+    name: "&aDiscord"
+    lore:
+      - "&7Únete a nuestro &bDiscord."
+      - "&7¡Mantente conectado con la comunidad!"
+    # Textura personalizada para la cabeza de Discord (Base64 del JSON de textura)
+    head_texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2RhOTQ0OWNlYTEyMTE5YzIyY2E1YjkzYzI4Y2JlOWRmMzE1MjFjYTE1OWE1ZWE1ZmFhNWZmYjVhMTc4MGY1NyJ9fX0="
+    action:
+      type: message
+      value: "&aÚnete a nuestro Discord: &bhttps://discord.gg/tu-servidor"
+
+  - slot: 15
+    material: BOOK
+    name: "&eReglas del Servidor"
+    lore:
+      - "&7Lee las reglas del servidor."
+      - "&7¡Es importante conocerlas!"
+    action:
+      type: command
+      value: "rules"
+
+  - slot: 20
+    material: CLOCK
+    name: "&6Estadísticas"
+    lore:
+      - "&7Tiempo jugado: &b%statistic_time_played%"
+      - "&7Bloques minados: &b%statistic_mine_block%"
+      - "&7Mobs eliminados: &b%statistic_kill_entity%"
+    action:
+      type: message
+      value: "&aEstadísticas actualizadas para %player_name%"
+
+  - slot: 22
+    material: EMERALD
+    name: "&2Economía"
+    lore:
+      - "&7Balance actual: &b%vault_eco_balance_formatted%"
+      - "&7Haz clic para ver más detalles."
+    action:
+      type: command
+      value: "balance"
+
+  - slot: 24
+    material: COMPASS
+    name: "&bUbicación"
+    lore:
+      - "&7Mundo: &b%player_world%"
+      - "&7Coordenadas: &b%player_x%, %player_y%, %player_z%"
+    action:
+      type: message
+      value: "&aEstás en %player_world% en las coordenadas %player_x%, %player_y%, %player_z%"

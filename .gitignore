@@ -1,0 +1,23 @@
+# Maven/Java
+/target/
+/test-output/
+/.classpath
+/.project
+/.settings/
+
+# IDEs
+/.idea/
+/.vscode/
+*.iml
+
+# Builds/outputs
+/out/
+/*.log
+/logs/
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# Local configs
+/.env

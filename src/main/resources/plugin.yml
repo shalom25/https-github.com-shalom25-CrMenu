@@ -1,0 +1,28 @@
+name: CrMenu
+main: com.crmenu.CrMenuPlugin
+version: 1.0.0
+api-version: 1.20
+description: Plugin para crear un menú configurable con soporte de idioma.
+authors:
+  - TraeAI
+softdepend:
+  - PlaceholderAPI
+commands:
+  menu:
+    description: Abre el menú del servidor y subcomandos.
+    permission: crmenu.open
+    usage: "/menu [id] | /menu info | /menu reload"
+  crmenu:
+    description: Comandos administrativos de CrMenu.
+    permission: crmenu.reload
+    usage: "/crmenu reload | /crmenu diag | /crmenu regen"
+permissions:
+  crmenu.open:
+    description: Permite abrir el menú del servidor.
+    default: true
+  crmenu.reload:
+    description: Permite recargar la configuración y el menú.
+    default: op
+  crmenu.diag:
+    description: Permite ejecutar diagnósticos de configuración.
+    default: op

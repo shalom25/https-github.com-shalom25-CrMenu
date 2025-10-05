@@ -1,0 +1,85 @@
+# Menú Principal del Servidor
+# Este archivo define el menú principal que se abre con /menu
+
+title: "Menu"
+size: 54
+
+# Permiso opcional para abrir este menú (vía /menu o open_menu)
+# Si se omite o está vacío, no requiere permiso específico
+permission_open: ""
+
+# Configuración del borde (opcional, sobrescribe la configuración global)
+border:
+  enabled: true
+  material: BLACK_STAINED_GLASS_PANE
+  name: " "
+
+# Configuración del botón de volver (opcional, sobrescribe la configuración global)
+back_button:
+  enabled: true
+  material: BARRIER
+  name: "&cAtrás"
+  slot: 49
+
+# Lista de ítems del menú
+items:
+  - slot: 11
+    material: minecraft:diamond_sword
+    name: "&aArena PvP"
+    lore:
+      - "&7Haz clic para ir a la arena."
+      - "&7¡Demuestra tus habilidades!"
+    action:
+      type: command
+      value: "warp arena"
+
+  - slot: 13
+    material: minecraft:compass
+    name: "&bLobby"
+    lore:
+      - "&7Regresar al spawn principal."
+    action:
+      type: command_console
+      value: "spawn {player}"
+
+  - slot: 15
+    material: BOOK
+    name: "&eMás información"
+    lore:
+      - "&7Abre el submenú de información."
+      - "&7Conoce más sobre el servidor."
+    action:
+      type: open_menu
+      value: "info"
+
+  - slot: 20
+    material: CHEST
+    name: "&6Tienda"
+    lore:
+      - "&7Accede a la tienda del servidor."
+      - "&7Compra ítems y mejoras."
+    action:
+      type: open_menu
+      value: "shop"
+
+  - slot: 22
+    material: REDSTONE
+    name: "&cPanel Admin"
+    lore:
+      - "&7Panel de administración."
+      - "&cSolo para administradores."
+    permission: "server.admin"
+    action:
+      type: open_menu
+      value: "admin"
+
+  - slot: 24
+    material: PLAYER_HEAD
+    name: "&dPerfil"
+    lore:
+      - "&7Ver tu perfil de jugador."
+      - "&7Estadísticas y progreso."
+    head_owner: "%player_name%"
+    action:
+      type: message
+      value: "&aHola %player_name%, tu rango es %luckperms_primary_group_name%"

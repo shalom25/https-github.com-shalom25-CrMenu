@@ -1,0 +1,157 @@
+############################################################
+# CrMenu - Configuración
+#
+# Ejemplos de uso y funciones del plugin:
+#
+# 1) Idioma:
+#    - Usa 'language: es' o 'language: en' para seleccionar el archivo de idioma.
+#    - En títulos, nombres y lore puedes referenciar claves con '@lang:<clave>'.
+#      Ejemplo: title: "@lang:menu_title"
+#
+# 2) Colores y estilo:
+#    - Usa códigos '&' como en Minecraft: &a (verde), &b (azul), &c (rojo), &l (negrita), &o (cursiva), &n (subrayado).
+#    - Se aplican en 'title', 'name' y cada línea de 'lore'.
+#
+# 3) Múltiples menús (submenús):
+#    - Define menús bajo 'menus:<id>' (ej. main, info, pvp).
+#    - Abre un submenú desde un ítem con action.type: open_menu y action.value: "<id>".
+#    - Comando: '/menu' abre el principal; '/menu <id>' abre el menú indicado.
+#
+# 4) Materiales e ítems:
+#    - Acepta materiales simples ('STONE', 'DIAMOND_SWORD') o namespaced ('minecraft:compass').
+#    - Usa 'PLAYER_HEAD' para cabezas de jugador:
+#        - head_owner: nombre del jugador (ej. "Notch")
+#        - head_texture: cadena Base64 de textures.minecraft.net para cabezas personalizadas.
+#
+# 5) Acciones de ítem:
+#    - command: ejecuta el comando como el jugador.
+#    - command_console: ejecuta el comando desde la consola del servidor.
+#    - message: envía un mensaje al jugador.
+#    - open_menu: abre otro menú por id.
+#
+# 6) Orden y tamaño:
+#    - 'size' debe ser múltiplo de 9 (9, 18, 27, 36, 45, 54).
+#    - 'slot' define la posición del ítem (0..size-1). Cambia los slots para ordenar.
+#
+# 7) Esquema legacy (compatibilidad):
+#    - También puedes usar 'menu:' con 'title', 'size' e 'items' si prefieres un único menú.
+#      Ejemplo:
+#      menu:
+#        title: "@lang:menu_title"
+#        size: 27
+#        items:
+#          - slot: 11
+#            material: STONE
+#            name: "&aEjemplo"
+#            lore:
+#              - "&7Texto de ayuda"
+#            action:
+#              type: message
+#              value: "&aHola"
+############################################################
+
+language: es
+
+# Permisos editables. Puedes cambiar los nodos según tus necesidades.
+permissions:
+  # Permiso para abrir el menú vía comando /menu
+  command_open: "crmenu.open"
+  # Permiso para recargar y acciones administrativas (/menu reload, /crmenu reload, /crmenu regen)
+  admin_reload: "crmenu.reload"
+  # Permiso para diagnóstico (/crmenu diag)
+  admin_diag: "crmenu.diag"
+
+# Nuevo esquema: múltiples menús configurables.
+# Usa 'menus.main' como menú principal, y puedes crear más menús (ej. 'pvp', 'info').
+# Configuración global de borde del menú
+border:
+  enabled: true
+  material: BLACK_STAINED_GLASS_PANE
+  # Nombre mostrado (se puede usar '@lang:' y códigos '&')
+  name: " "
+  
+# Botón de volver (configuración global, puede sobrescribirse por menú)
+back_button:
+  enabled: true
+  material: ARROW
+  name: "&7Volver"
+  # Slot por defecto: primera columna de la fila inferior
+  slot: 45
+menus:
+  main:
+    title: "Menu"
+    size: 54
+    # Permiso opcional para abrir este menú (vía /menu o open_menu). Si se omite, no requiere permiso específico.
+    permission_open: ""
+    # Override opcional del borde por menú
+    border:
+      enabled: true
+      material: BLACK_STAINED_GLASS_PANE
+      name: " "
+    # Override opcional del botón de volver
+    back_button:
+      enabled: true
+      material: BARRIER
+      name: "&cAtrás"
+      slot: 49
+    items:
+      - slot: 11
+        material: minecraft:diamond_sword
+        name: "&aArena PvP"
+        lore:
+          - "&7Haz clic para ir."
+        action:
+          type: command
+          value: "warp arena"
+      - slot: 13
+        material: minecraft:compass
+        name: "&bLobby"
+        lore:
+          - "&7Regresar al spawn."
+        action:
+          type: command_console
+          value: "spawn"
+      - slot: 15
+        material: BOOK
+        name: "&eMás información"
+        lore:
+          - "&7Abre el submenú de &binfo."
+        action:
+          type: open_menu
+          value: "info"
+  info:
+    title: "Menu"
+    size: 54
+    # Permiso opcional para abrir este submenú
+    permission_open: ""
+    # Puedes personalizar el borde en este menú si lo deseas
+    # border:
+    #   enabled: true
+    #   material: GRAY_STAINED_GLASS_PANE
+    #   name: "&8"
+    items:
+      - slot: 11
+        material: PLAYER_HEAD
+        name: "&eTu Perfil"
+        lore:
+          - "&7Nombre: &b%player_name%"
+          - "&7Ping: &b%player_ping%ms"
+          - "&7Balance: &b%vault_eco_balance_formatted%"
+        # Permiso opcional para hacer clic en este ítem.
+        # Si se define y el jugador no lo tiene, el clic no ejecutará la acción.
+        permission: ""
+        # Ejemplo de cabeza de jugador por nombre
+        # Si no se especifica owner, se usará la cabeza del jugador actual
+        action:
+          type: message
+          value: "&aHola %player_name%, tu rango es %luckperms_primary_group_name%"
+      - slot: 13
+        material: PLAYER_HEAD
+        name: "&aDiscord"
+        lore:
+          - "&7Únete al &bDiscord."
+        # Textura personalizada para la cabeza de Discord (Base64 del JSON de textura)
+        head_texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2RhOTQ0OWNlYTEyMTE5YzIyY2E1YjkzYzI4Y2JlOWRmMzE1MjFjYTE1OWE1ZWE1ZmFhNWZmYjVhMTc4MGY1NyJ9fX0="
+        action:
+          type: message
+          value: "&ahttps://discord.gg/tu-servidor"

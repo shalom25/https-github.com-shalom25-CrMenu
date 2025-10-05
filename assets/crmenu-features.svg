@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="628" viewBox="0 0 1200 628">
+  <defs>
+    <linearGradient id="bggrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#3b82f6"/>
+      <stop offset="100%" stop-color="#60a5fa"/>
+    </linearGradient>
+    <!-- Soft shadow filter for white title -->
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="blur"/>
+      <feOffset in="blur" dx="2" dy="2" result="offsetBlur"/>
+      <feMerge>
+        <feMergeNode in="offsetBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <rect x="0" y="0" width="1200" height="628" fill="url(#bggrad)"/>
+
+  <!-- Soft cyan circular rings -->
+  <g opacity="0.22" stroke="#7dd3fc" fill="none">
+    <!-- Cluster 1 extended -->
+    <circle cx="260" cy="360" r="50" stroke-width="2"/>
+    <circle cx="260" cy="360" r="90" stroke-width="2"/>
+    <circle cx="260" cy="360" r="130" stroke-width="2"/>
+    <circle cx="260" cy="360" r="170" stroke-width="2"/>
+    <circle cx="260" cy="360" r="210" stroke-width="2"/>
+    <!-- Cluster 2 extended -->
+    <circle cx="920" cy="200" r="70" stroke-width="2"/>
+    <circle cx="920" cy="200" r="110" stroke-width="2"/>
+    <circle cx="920" cy="200" r="150" stroke-width="2"/>
+    <circle cx="920" cy="200" r="190" stroke-width="2"/>
+    <circle cx="920" cy="200" r="230" stroke-width="2"/>
+  </g>
+
+  <!-- Accent bar -->
+  <rect x="0" y="0" width="1200" height="8" fill="#00d1b2"/>
+
+  <!-- Title -->
+  <text x="60" y="110" fill="#ffffff" font-size="48" font-weight="700" font-family="Segoe UI, Arial, sans-serif" filter="url(#softShadow)">CrMenu — Server Menu Plugin</text>
+  <text x="60" y="160" fill="#9ca3af" font-size="24" font-family="Segoe UI, Arial, sans-serif">Modern, configurable menus for your Minecraft server</text>
+
+  <!-- Features heading -->
+  <text x="60" y="220" fill="#00d1b2" font-size="28" font-weight="600" font-family="Segoe UI, Arial, sans-serif">Key Features</text>
+
+  <!-- Features list -->
+  <g font-family="Segoe UI, Arial, sans-serif" font-size="24" fill="#e5e7eb">
+    <text x="60" y="265">• Multiple menus with per-item actions</text>
+    <text x="60" y="305">• Title, border and back-button customization</text>
+    <text x="60" y="345">• Language files (English/Spanish) and color codes (&)</text>
+    <text x="60" y="385">• Per-menu and per-item permissions</text>
+    <text x="60" y="425">• Legacy config support and automatic resource seeding</text>
+  </g>
+
+  <!-- Commands / Usage -->
+  <text x="60" y="520" fill="#00d1b2" font-size="26" font-weight="600" font-family="Segoe UI, Arial, sans-serif">Commands</text>
+  <text x="60" y="555" fill="#e5e7eb" font-size="22" font-family="Segoe UI, Arial, sans-serif">/menu (alias /crmenu), admin reload/diag</text>
+
+  <!-- Supported versions -->
+  <text x="750" y="520" fill="#00d1b2" font-size="26" font-weight="600" font-family="Segoe UI, Arial, sans-serif">Supported versions</text>
+  <text x="750" y="555" fill="#e5e7eb" font-size="22" font-family="Segoe UI, Arial, sans-serif">Paper/Spigot 1.20–1.21+</text>
+
+  <!-- Footer -->
+  <text x="60" y="600" fill="#9ca3af" font-size="20" font-family="Segoe UI, Arial, sans-serif">CrMenu v1.0.0 — Simple, flexible server menus</text>
+</svg>

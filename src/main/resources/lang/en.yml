@@ -1,0 +1,4 @@
+prefix: "CrMenu"
+menu_title: "&8Server Menu"
+open_message: "&aOpening menu..."
+no_permission: "&cYou don't have permission to use this."
