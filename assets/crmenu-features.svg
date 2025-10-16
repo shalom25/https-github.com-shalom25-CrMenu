@@ -58,7 +58,7 @@
 
   <!-- Supported versions -->
   <text x="750" y="520" fill="#00d1b2" font-size="26" font-weight="600" font-family="Segoe UI, Arial, sans-serif">Supported versions</text>
-  <text x="750" y="555" fill="#e5e7eb" font-size="22" font-family="Segoe UI, Arial, sans-serif">Paper/Spigot 1.20–1.21+</text>
+  <text x="750" y="555" fill="#e5e7eb" font-size="22" font-family="Segoe UI, Arial, sans-serif">Paper/Spigot 1.8–1.21.8</text>
 
   <!-- Footer -->
   <text x="60" y="600" fill="#9ca3af" font-size="20" font-family="Segoe UI, Arial, sans-serif">CrMenu v1.0.0 — Simple, flexible server menus</text>

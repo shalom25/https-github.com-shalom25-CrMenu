@@ -451,7 +451,7 @@ public class MenuManager {
         String defaultBorderMaterialName = plugin.getConfig().getString("border.material", "BLACK_STAINED_GLASS_PANE");
         String defaultBorderName = plugin.getConfig().getString("border.name", " ");
         Material defaultBorderMaterial = normalizeMaterial(defaultBorderMaterialName);
-        if (defaultBorderMaterial == null) defaultBorderMaterial = Material.BLACK_STAINED_GLASS_PANE;
+        if (defaultBorderMaterial == null) defaultBorderMaterial = normalizeMaterial("BLACK_STAINED_GLASS_PANE");
 
         boolean borderEnabled = defaultBorderEnabled;
         Material borderMaterial = defaultBorderMaterial;
@@ -576,7 +576,7 @@ public class MenuManager {
         String defaultBorderMaterialName = plugin.getConfig().getString("border.material", "BLACK_STAINED_GLASS_PANE");
         String defaultBorderName = plugin.getConfig().getString("border.name", " ");
         Material defaultBorderMaterial = normalizeMaterial(defaultBorderMaterialName);
-        if (defaultBorderMaterial == null) defaultBorderMaterial = Material.BLACK_STAINED_GLASS_PANE;
+        if (defaultBorderMaterial == null) defaultBorderMaterial = normalizeMaterial("BLACK_STAINED_GLASS_PANE");
 
         boolean borderEnabled = defaultBorderEnabled;
         Material borderMaterial = defaultBorderMaterial;
@@ -664,7 +664,26 @@ public class MenuManager {
         String materialName = String.valueOf(map.getOrDefault("material", "STONE"));
         Material material = normalizeMaterial(materialName);
         if (material == null) material = Material.STONE;
-        ItemStack stack = new ItemStack(material);
+
+        // Construcción inteligente para compatibilidad 1.8↔1.13+
+        ItemStack stack;
+        String matNameUpper = materialName == null ? "STONE" : materialName.trim().toUpperCase();
+        // Soporte de vidrios teñidos en 1.8
+        if (material.name().equals("STAINED_GLASS_PANE") && matNameUpper.endsWith("_STAINED_GLASS_PANE")) {
+            short data = dyeDataFromName(matNameUpper.replace("_STAINED_GLASS_PANE", ""));
+            stack = itemWithData(material, 1, data);
+        } else if ((matNameUpper.equals("HEAD") || matNameUpper.equals("PLAYER_HEAD") || matNameUpper.equals("SKULL"))
+                && (Material.matchMaterial("PLAYER_HEAD") == null)) {
+            // En 1.8 usar SKULL_ITEM con data 3 (cabeza de jugador)
+            Material skull = Material.matchMaterial("SKULL_ITEM");
+            if (skull != null) {
+                stack = itemWithData(skull, 1, 3);
+            } else {
+                stack = new ItemStack(material);
+            }
+        } else {
+            stack = new ItemStack(material);
+        }
         ItemMeta meta = stack.getItemMeta();
         if (meta != null) {
             String name = String.valueOf(map.getOrDefault("name", ""));
@@ -715,6 +734,31 @@ public class MenuManager {
 
             stack.setItemMeta(meta);
         }
+        return stack;
+    }
+
+    // Construye ItemStack y aplica data/durabilidad de forma compatible 1.8↔1.21.8
+    private ItemStack itemWithData(Material material, int amount, int data) {
+        ItemStack stack = new ItemStack(material, amount);
+        // Intentar API moderna Damageable
+        try {
+            ItemMeta meta = stack.getItemMeta();
+            if (meta != null) {
+                Class<?> dmg = Class.forName("org.bukkit.inventory.meta.Damageable");
+                if (dmg.isInstance(meta)) {
+                    java.lang.reflect.Method setDamage = dmg.getMethod("setDamage", int.class);
+                    setDamage.invoke(meta, data);
+                    stack.setItemMeta(meta);
+                    return stack;
+                }
+            }
+        } catch (Throwable ignored) {}
+
+        // Fallback legacy: usar setDurability(short) por reflexión para evitar deprecación en compilación
+        try {
+            java.lang.reflect.Method setDurability = ItemStack.class.getMethod("setDurability", short.class);
+            setDurability.invoke(stack, (short) data);
+        } catch (Throwable ignored) {}
         return stack;
     }
 
@@ -786,6 +830,17 @@ public class MenuManager {
         // Aliases comunes para cabezas
         if (s.equalsIgnoreCase("HEAD") || s.equalsIgnoreCase("PLAYER_HEAD") || s.equalsIgnoreCase("SKULL")) {
             Material m = Material.matchMaterial("PLAYER_HEAD");
+            if (m != null) return m;
+            // Fallback 1.8
+            m = Material.matchMaterial("SKULL_ITEM");
+            if (m == null) m = Material.matchMaterial("SKULL");
+            if (m != null) return m;
+        }
+        // Fallback de colores 1.13+ → 1.8 para vidrios teñidos
+        if (s.toUpperCase().endsWith("_STAINED_GLASS_PANE")) {
+            Material m = Material.matchMaterial(s);
+            if (m != null) return m; // 1.13+
+            m = Material.matchMaterial("STAINED_GLASS_PANE"); // 1.8
             if (m != null) return m;
         }
         Material material = Material.matchMaterial(s);
@@ -941,14 +996,8 @@ public class MenuManager {
         int size = inv.getSize();
         if (size <= 0 || size % 9 != 0) return;
         int rows = size / 9;
-        Material mat = material != null ? material : Material.BLACK_STAINED_GLASS_PANE;
-        org.bukkit.inventory.ItemStack pane = new org.bukkit.inventory.ItemStack(mat);
-        org.bukkit.inventory.meta.ItemMeta meta = pane.getItemMeta();
-        if (meta != null) {
-            String name = displayName == null ? " " : language.color(resolveString(displayName));
-            meta.setDisplayName(name);
-            pane.setItemMeta(meta);
-        }
+        String matName = (material != null ? material.name() : "BLACK_STAINED_GLASS_PANE");
+        ItemStack pane = createItemStack(matName, displayName == null ? " " : displayName, null, null);
         // Top row
         for (int i = 0; i < 9; i++) placeIfEmpty(inv, i, pane);
         // Bottom row
@@ -958,6 +1007,30 @@ public class MenuManager {
         for (int r = 1; r < rows - 1; r++) {
             placeIfEmpty(inv, r * 9, pane);
             placeIfEmpty(inv, r * 9 + 8, pane);
+        }
+    }
+
+    // Mapeo de colores de tinte a data values (1.8)
+    private short dyeDataFromName(String colorName) {
+        String c = colorName.toUpperCase();
+        switch (c) {
+            case "WHITE": return 0;
+            case "ORANGE": return 1;
+            case "MAGENTA": return 2;
+            case "LIGHT_BLUE": return 3;
+            case "YELLOW": return 4;
+            case "LIME": return 5;
+            case "PINK": return 6;
+            case "GRAY": return 7;
+            case "LIGHT_GRAY": case "SILVER": return 8;
+            case "CYAN": return 9;
+            case "PURPLE": return 10;
+            case "BLUE": return 11;
+            case "BROWN": return 12;
+            case "GREEN": return 13;
+            case "RED": return 14;
+            case "BLACK": return 15;
+            default: return 15; // negro por defecto
         }
     }
 

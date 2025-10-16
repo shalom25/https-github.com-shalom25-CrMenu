@@ -55,7 +55,7 @@ public class ReloadCommand implements CommandExecutor {
             sender.sendMessage("§aCrMenu recargado.");
             if (sender instanceof Player) {
                 Player p = (Player) sender;
-                p.playSound(p.getLocation(), Sound.UI_TOAST_IN, 1f, 1f);
+                playReloadSound(p);
             }
             return true;
         }
@@ -69,8 +69,27 @@ public class ReloadCommand implements CommandExecutor {
         sender.sendMessage("§aCrMenu recargado.");
         if (sender instanceof Player) {
             Player p = (Player) sender;
-            p.playSound(p.getLocation(), Sound.UI_TOAST_IN, 1f, 1f);
+            playReloadSound(p);
         }
         return true;
+    }
+
+    private void playReloadSound(Player p) {
+        // Intenta sonido moderno; fallback a 1.8
+        try {
+            Sound s = Sound.valueOf("UI_TOAST_IN");
+            p.playSound(p.getLocation(), s, 1f, 1f);
+            return;
+        } catch (IllegalArgumentException ignored) { }
+        try {
+            Sound legacy = Sound.valueOf("CLICK");
+            p.playSound(p.getLocation(), legacy, 1f, 1f);
+        } catch (IllegalArgumentException ignored) {
+            // Último recurso
+            try {
+                Sound s = Sound.valueOf("LEVEL_UP");
+                p.playSound(p.getLocation(), s, 1f, 1f);
+            } catch (IllegalArgumentException ignored2) { }
+        }
     }
 }

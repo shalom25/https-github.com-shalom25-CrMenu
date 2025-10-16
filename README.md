@@ -24,7 +24,7 @@ Plugin Spigot/Bukkit para crear un menú del servidor totalmente configurable y 
 
 1. Compila el proyecto:
    - En consola: `mvn package`
-   - El artefacto se generará en `target/CrMenu-1.0.0.jar`
+- El artefacto se generará en `target/CrMenu-1.1.0.jar`
 2. Copia el `.jar` a la carpeta `plugins` de tu servidor.
 3. Inicia el servidor para que se generen los archivos de configuración y lenguaje.
 
@@ -154,3 +154,10 @@ Al ejecutar el comando se abrirá el menú definido en `config.yml`. Los clics s
 
 - Si cambias la configuración, reinicia o usa `/reload` con precaución. Para reconstruir el menú sin reiniciar, puedes recargar el plugin o reabrir el menú.
 - Este proyecto usa Spigot API como dependencia `provided`; no se empaqueta en el JAR final.
+
+## Compatibilidad
+
+- Versiones de Minecraft compatibles: 1.8 → 1.21.8.
+- Java: el JAR se compila para Java 8 (funciona en Java 8–21). Servidores 1.20+ requieren ejecutar Java 17+.
+- `api-version`: 1.13 para materiales modernos; en 1.8–1.12 se hace fallback automático a materiales legacy.
+- Sonidos: se intenta `UI_TOAST_IN` y se hace fallback a `CLICK`/`LEVEL_UP` en servidores antiguos.

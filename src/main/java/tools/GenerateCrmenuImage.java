@@ -124,7 +124,7 @@ public class GenerateCrmenuImage {
             g.drawString("Supported Versions", 750, 520);
             g.setColor(new Color(0xe5, 0xe7, 0xeb));
             g.setFont(loadFont("Segoe UI", Font.PLAIN, 22));
-            g.drawString("Paper/Spigot 1.20–1.21+", 750, 555);
+            g.drawString("Paper/Spigot 1.8–1.21.8", 750, 555);
 
             g.setColor(new Color(0x9c, 0xa3, 0xaf));
             g.setFont(loadFont("Segoe UI", Font.PLAIN, 20));
@@ -190,33 +190,6 @@ public class GenerateCrmenuImage {
         g.drawString(text, x, y);
     }
 
-    private static void drawMenuGrid(Graphics2D g, int x, int y, int cols, int rows, int cellSize, int gap) {
-        int w = cols * cellSize + (cols - 1) * gap;
-        int h = rows * cellSize + (rows - 1) * gap;
-        // Background
-        g.setColor(new Color(0x12, 0x19, 0x2a));
-        g.fillRoundRect(x - 12, y - 12, w + 24, h + 24, 12, 12);
-        g.setColor(new Color(0x22, 0x2b, 0x3a));
-        g.drawRoundRect(x - 12, y - 12, w + 24, h + 24, 12, 12);
-        // Cells
-        for (int r = 0; r < rows; r++) {
-            for (int c = 0; c < cols; c++) {
-                int cx = x + c * (cellSize + gap);
-                int cy = y + r * (cellSize + gap);
-                g.setColor(new Color(0x1f, 0x27, 0x3a));
-                g.fillRoundRect(cx, cy, cellSize, cellSize, 8, 8);
-                g.setColor(new Color(0x28, 0x33, 0x49));
-                g.drawRoundRect(cx, cy, cellSize, cellSize, 8, 8);
-            }
-        }
-        // Accent slot examples
-        g.setColor(new Color(0x00, 0xd1, 0xb2));
-        g.fillRoundRect(x + gap, y + gap, cellSize, cellSize, 8, 8);
-        g.setColor(new Color(0x3b, 0x82, 0xf6));
-        g.fillRoundRect(x + gap + (cellSize + gap) * 2, y + gap, cellSize, cellSize, 8, 8);
-        g.setColor(new Color(0xf5, 0x72, 0x2b));
-        g.fillRoundRect(x + gap + (cellSize + gap) * 5, y + gap, cellSize, cellSize, 8, 8);
-    }
 
     private static void drawInventoryPreview(Graphics2D g, int x, int y, int cols, int rows, int cellSize, int gap, String title) {
         int w = cols * cellSize + (cols - 1) * gap;

@@ -1,7 +1,7 @@
 name: CrMenu
 main: com.crmenu.CrMenuPlugin
-version: 1.0.0
-api-version: 1.20
+version: 1.1.0
+api-version: 1.13
 description: Plugin para crear un menú configurable con soporte de idioma.
 authors:
   - TraeAI

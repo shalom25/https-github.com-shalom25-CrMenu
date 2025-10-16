@@ -1,10 +1,5 @@
 package tools;
 
-import com.sun.net.httpserver.Headers;
-import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
-import com.sun.net.httpserver.HttpServer;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -14,6 +9,7 @@ import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
 
+@SuppressWarnings("restriction")
 public class SimpleAssetServer {
     public static void main(String[] args) throws IOException {
         int port = 8080;
@@ -22,7 +18,7 @@ public class SimpleAssetServer {
                 port = Integer.parseInt(args[0]);
             }
         } catch (NumberFormatException ignored) {}
-        HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
+        com.sun.net.httpserver.HttpServer server = com.sun.net.httpserver.HttpServer.create(new InetSocketAddress(port), 0);
         File assetDir = new File("assets");
         server.createContext("/assets", new StaticHandler(assetDir));
         server.setExecutor(null);
@@ -31,7 +27,7 @@ public class SimpleAssetServer {
         System.out.println("Preview URL: http://localhost:" + port + "/assets/crmenu-features.jpg");
     }
 
-    static class StaticHandler implements HttpHandler {
+    static class StaticHandler implements com.sun.net.httpserver.HttpHandler {
         private final File base;
         private final Map<String, String> types = new HashMap<>();
 
@@ -47,7 +43,7 @@ public class SimpleAssetServer {
         }
 
         @Override
-        public void handle(HttpExchange exchange) throws IOException {
+        public void handle(com.sun.net.httpserver.HttpExchange exchange) throws IOException {
             String path = exchange.getRequestURI().getPath().replace("/assets", "");
             if (path.isEmpty() || path.equals("/")) {
                 String index = "<html><body><h1>Assets</h1><ul>" +
@@ -76,11 +72,15 @@ public class SimpleAssetServer {
             exchange.getResponseHeaders().add("Content-Type", ct);
             exchange.sendResponseHeaders(200, Files.size(file.toPath()));
             try (OutputStream os = exchange.getResponseBody(); FileInputStream fis = new FileInputStream(file)) {
-                fis.transferTo(os);
+                byte[] buffer = new byte[8192];
+                int read;
+                while ((read = fis.read(buffer)) != -1) {
+                    os.write(buffer, 0, read);
+                }
             }
         }
 
-        private void addCORS(Headers headers) {
+        private void addCORS(com.sun.net.httpserver.Headers headers) {
             headers.add("Access-Control-Allow-Origin", "*");
         }
 
